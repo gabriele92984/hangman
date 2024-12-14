@@ -10,10 +10,30 @@ end
 
 selected_words = load_dictionary  # Capture returned value
 secret_word = selected_words.sample
+puts "The secret word chosen is: #{secret_word}" # For debugging
 
-puts "The secret word chosen: #{secret_word}"
+board = ['_'] * secret_word.size
+puts board.join(' ')
 
-puts 'Please, guess a letter:'
-guess = gets.chomp
+lives = 6
 
-puts "Your guess was: #{guess}"
+while lives > 0 && board.include?('_')
+  puts 'Please, guess a letter:'
+  guess = gets.chomp
+  puts "Your guess was: #{guess}"
+
+  if secret_word.include?(guess)
+    # If any of the letters in secret_word match then update board
+    # at the location of the matching letters to reveal the guessed word.
+    secret_word.chars.each_with_index do |char, index|
+      if char == guess
+        board[index] = char
+      end
+    end
+  else
+    lives -= 1
+    puts "The word does not include: #{guess}"
+  end
+
+  puts board.join(' ')
+end

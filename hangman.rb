@@ -18,7 +18,7 @@ puts board.join(' ')
 lives = 6
 
 while lives > 0 && board.include?('_')
-  puts 'Please, guess a letter:'
+  puts "You have #{lives} lives left. Please, guess a letter:"
   guess = gets.chomp
   puts "Your guess was: #{guess}"
 
@@ -36,4 +36,10 @@ while lives > 0 && board.include?('_')
   end
 
   puts board.join(' ')
+end
+
+if board.join('') == secret_word
+  puts "Congrats, you win!"
+else
+  puts "Sorry, you lose... The secret word is: #{secret_word}"
 end

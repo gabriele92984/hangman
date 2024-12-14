@@ -26,7 +26,7 @@ while lives > 0 && board.include?('_')
     # If any of the letters in secret_word match then update board
     # at the location of the matching letters to reveal the guessed word.
     secret_word.chars.each_with_index do |char, index|
-      if char == guess
+      if char.downcase == guess.downcase
         board[index] = char
       end
     end

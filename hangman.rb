@@ -5,7 +5,7 @@
 #   selected_words = []  # Define selected_words within the method
 #   begin
 #     File.readlines('data/google-10000-english-no-swears.txt').each do |word|
-#       selected_words << word.strip if word.size.between?(5, 12)
+#       selected_words << word if word.strip.size.between?(5, 12)
 #     end
 #   rescue Errno::ENOENT
 #     puts 'Error: Dictionary file not found.'
@@ -65,7 +65,7 @@ class Hangman
   def words_list
     begin
       File.readlines('data/google-10000-english-no-swears.txt').each do |word|
-        @selected_words << word.strip if word.size.between?(5, 12)
+        @selected_words << word if word.strip.size.between?(5, 12)
       end
     rescue Errno::ENOENT
       puts 'Error: Dictionary file not found.'

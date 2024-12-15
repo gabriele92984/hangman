@@ -5,7 +5,7 @@
 #   selected_words = []  # Define selected_words within the method
 #   begin
 #     File.readlines('data/google-10000-english-no-swears.txt').each do |word|
-#       selected_words << word if word.strip.size.between?(5, 12)
+#       selected_words << word.strip if word.strip.size.between?(5, 12)
 #     end
 #   rescue Errno::ENOENT
 #     puts 'Error: Dictionary file not found.'
@@ -54,18 +54,18 @@
 # end
 
 # Object-Oriented Version
-
 class Hangman
   def initialize
     @lives = 6
     @selected_words = []
     @secret_word = words_list.sample
+    @board = setup_board
   end
 
   def words_list
     begin
       File.readlines('data/google-10000-english-no-swears.txt').each do |word|
-        @selected_words << word if word.strip.size.between?(5, 12)
+        @selected_words << word.strip if word.strip.size.between?(5, 12)
       end
     rescue Errno::ENOENT
       puts 'Error: Dictionary file not found.'
@@ -74,9 +74,26 @@ class Hangman
     @selected_words  # Return the selected words
   end
 
+  def setup_board
+    ['_'] * @secret_word.size
+  end
+
+  def board_state
+    @board.join(' ')
+  end
+
   def play
     puts 'Welcome to Hangman!'
-    puts "The secret word chosen is: #{@secret_word}"
+    puts "The secret word chosen is: #{@secret_word}" # For debugging
+
+    # Ask for user action: (p)lay a new game or (l)oad a saved game
+    
+    # While the player has lives and not won
+    #   print the board state
+        puts board_state
+    #   receive a guess
+    #   update the board
+  
   end
 end
 

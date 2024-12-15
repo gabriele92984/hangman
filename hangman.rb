@@ -8,19 +8,20 @@ def load_dictionary
   selected_words  # Return the selected words
 end
 
-selected_words = load_dictionary  # Capture returned value
-secret_word = selected_words.sample
+# words_list = load_dictionary  # Capture returned value
+secret_word = load_dictionary.sample
 puts "The secret word chosen is: #{secret_word}" # For debugging
 
+incorrect_letters = []
 board = ['_'] * secret_word.size
 puts board.join(' ')
 
 lives = 6
 
 while lives > 0 && board.include?('_')
-  puts "You have #{lives} lives left. Please, guess a letter:"
+  print "\nYou have #{lives} lives left. Please, guess a letter: "
   guess = gets.chomp
-  puts "Your guess was: #{guess}"
+  # puts "Your guess was: #{guess}"
 
   if secret_word.include?(guess)
     # If any of the letters in secret_word match then update board
@@ -32,14 +33,16 @@ while lives > 0 && board.include?('_')
     end
   else
     lives -= 1
-    puts "The word does not include: #{guess}"
+    incorrect_letters << guess
+    puts "The word did not include: #{guess}"
+    puts "Incorrect letters chosen: #{incorrect_letters}"
   end
 
   puts board.join(' ')
 end
 
 if board.join('') == secret_word
-  puts "Congrats, you win!"
+  puts "Congrats, you won!"
 else
-  puts "Sorry, you lose... The secret word is: #{secret_word}"
+  puts "Sorry, you lose... The secret word was: #{secret_word}"
 end

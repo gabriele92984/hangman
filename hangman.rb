@@ -87,7 +87,7 @@ class Hangman
 
   def make_guess
     print "\nPlease, guess a letter: "
-    gets.chomp[0]
+    gets.chomp
   end
 
   def update_board(guess)
@@ -115,26 +115,40 @@ class Hangman
     lives == 0
   end
 
+  def user_action
+    print "\nYou wanna (p)lay or (s)ave the game? "
+    gets.chomp
+  end
+
+  def save_game
+    
+  end
+
   def play
     puts 'Welcome to Hangman!'
     # puts "The secret word is: #{@secret_word}" # For debugging
-
-    # Ask for user action: (p)lay a new game or (l)oad a saved game
+    
     while !lost? && !won?
       # print number of lives
-      puts "\nYou have #{lives} lives left."
+      puts "\n\nYou have #{lives} lives left."
       # print the board state
       puts board_state
-      # receive a guess
-      guess = make_guess
+      # ask for user action: (p)lay or (s)ave the game
+      action = user_action
+      if action == 'p' 
+        guess = make_guess
+      else
+      # serializing method  
+        save_game
+      end
       # update the board
       update_board(guess)
     end
     
     if won?
-      puts "Congrats, you won!"
+      puts "\nCongrats, you won!"
     else
-      puts "Sorry, you lost... The secret word was: #{secret_word}"
+      puts "\nSorry, you lost... The secret word was: #{secret_word}"
     end
   end
 end

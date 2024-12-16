@@ -55,6 +55,8 @@
 
 ## Object-Oriented Version
 class Hangman
+  attr_accessor :lives, :selected_words, :incorrect_letters, :secret_word, :board 
+
   def initialize
     @lives = 6
     @selected_words = []
@@ -66,21 +68,21 @@ class Hangman
   def words_list
     begin
       File.readlines('data/google-10000-english-no-swears.txt').each do |word|
-        @selected_words << word.strip if word.strip.size.between?(5, 12)
+        selected_words << word.strip if word.strip.size.between?(5, 12)
       end
     rescue Errno::ENOENT
       puts 'Error: Dictionary file not found.'
       exit 1
     end
-    @selected_words  # Return the selected words
+    selected_words  # Return the selected words
   end
 
   def setup_board
-    ['_'] * @secret_word.size
+    ['_'] * secret_word.size
   end
 
   def board_state
-    @board.join(' ')
+    board.join(' ')
   end
 
   def make_guess
@@ -89,24 +91,24 @@ class Hangman
   end
 
   def update_board(guess)
-    if @secret_word.include?(guess)
+    if secret_word.include?(guess)
     # If any of the letters in secret_word match then update board
     # at the location of the matching letters to reveal the guessed word.
-      @secret_word.chars.each_with_index do |char, index|
+      secret_word.chars.each_with_index do |char, index|
         if char.downcase == guess.downcase
-          @board[index] = char
+           board[index] = char
         end
       end
     else
-      @lives -= 1
-      @incorrect_letters << guess
+      self.lives -= 1
+      incorrect_letters << guess
       # puts "The word did not include: #{guess}"
-      puts "Incorrect letters chosen: #{@incorrect_letters}"
+      puts "Incorrect letters chosen: #{incorrect_letters}"
     end
   end
 
   def won?
-    @board.join('') == @secret_word  
+    board.join('') == secret_word  
   end
 
 
@@ -115,9 +117,9 @@ class Hangman
     # puts "The secret word is: #{@secret_word}" # For debugging
 
     # Ask for user action: (p)lay a new game or (l)oad a saved game
-    while @lives > 0 && !won?
+    while lives > 0 && !won?
       # print number of lives
-      puts "\n\nYou have #{@lives} lives left."
+      puts "\nYou have #{lives} lives left."
       # print the board state
       puts board_state
       # receive a guess
@@ -129,7 +131,7 @@ class Hangman
     if won?
       puts "Congrats, you won!"
     else
-      puts "Sorry, you lose... The secret word was: #{@secret_word}"
+      puts "Sorry, you lost... The secret word was: #{secret_word}"
     end
   end
 end

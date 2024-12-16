@@ -54,6 +54,8 @@
 # end
 
 ## Object-Oriented Version
+require 'yaml'
+
 class Hangman
   attr_accessor :lives, :selected_words, :incorrect_letters, :secret_word, :board 
 
@@ -133,6 +135,7 @@ class Hangman
 
     Dir.chdir('data')
     Dir.mkdir('saved_games') unless Dir.exist?('saved_games')
+    Dir.chdir('saved_games')
 
     ## exception handling
     # begin
@@ -147,16 +150,20 @@ class Hangman
   end
 
   def load_game
-  # open the directory 'saved_games' and list the games saved
-
-  # ask filename game
+  # open directory 'saved_games' and list the games saved
+  # ask user for a filename game
     print "Please, enter a saved game name: "
     filename = "#{gets.chomp}.yml"
   
     if File.exist?(filename)
       game_data = YAML.load_file(filename)
       @lives = game_data[:lives]
-      
+      @secret_word = game_data[:secret_word]
+      @incorrect_letters = game_data[:incorrect_letters]
+      @board = game_data[:board]
+      puts "Game loaded successfully!"
+    else
+      puts "No saved game found. Starting a new game..."
     end
   end
 

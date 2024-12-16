@@ -1,0 +1,15 @@
+---
+:lives: 1
+:secret_word: davis
+:incorrect_letters:
+- r
+- e
+- t
+- o
+- b
+:board:
+- _
+- a
+- _
+- _
+- _

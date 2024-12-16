@@ -86,7 +86,7 @@ class Hangman
   end
 
   def make_guess
-    print "\nPlease, guess a letter: "
+    print "Please, guess a letter: "
     gets.chomp
   end
 
@@ -115,26 +115,61 @@ class Hangman
     lives == 0
   end
 
-  def user_action
+  def user_choice
     print "\nYou wanna (p)lay or (s)ave the game? "
     gets.chomp
   end
 
   def save_game
-    
+    game_data = {
+      lives: @lives,
+      secret_word: @secret_word,
+      incorrect_letters: @incorrect_letters,
+      board: @board
+    }
+
+    print "Save game as: "
+    filename = "#{gets.chomp}.yml"
+
+    Dir.chdir('data')
+    Dir.mkdir('saved_games') unless Dir.exist?('saved_games')
+
+    ## exception handling
+    # begin
+    #   File.write(filename, YAML.dump(game_data))
+    #   puts 'Game saved successfully!'
+    # rescue => e
+    #   puts "Error saving game: #{e.message}"
+    # end
+
+    File.write(filename, YAML.dump(game_data))
+    puts 'Game saved successfully!'
+  end
+
+  def load_game
+  # open the directory 'saved_games' and list the games saved
+
+  # ask filename game
+    print "Please, enter a saved game name: "
+    filename = "#{gets.chomp}.yml"
+  
+    if File.exist?(filename)
+      game_data = YAML.load_file(filename)
+      @lives = game_data[:lives]
+      
+    end
   end
 
   def play
     puts 'Welcome to Hangman!'
     # puts "The secret word is: #{@secret_word}" # For debugging
-    
     while !lost? && !won?
       # print number of lives
       puts "\n\nYou have #{lives} lives left."
       # print the board state
       puts board_state
       # ask for user action: (p)lay or (s)ave the game
-      action = user_action
+      action = user_choice
       if action == 'p' 
         guess = make_guess
       else

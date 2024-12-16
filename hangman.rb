@@ -86,8 +86,8 @@ class Hangman
   end
 
   def make_guess
-    print "Please, guess a letter: "
-    gets.chomp 
+    print "\nPlease, guess a letter: "
+    gets.chomp[0]
   end
 
   def update_board(guess)

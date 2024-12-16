@@ -111,13 +111,16 @@ class Hangman
     board.join('') == secret_word  
   end
 
+  def lost?
+    lives == 0
+  end
 
   def play
     puts 'Welcome to Hangman!'
     # puts "The secret word is: #{@secret_word}" # For debugging
 
     # Ask for user action: (p)lay a new game or (l)oad a saved game
-    while lives > 0 && !won?
+    while !lost? && !won?
       # print number of lives
       puts "\nYou have #{lives} lives left."
       # print the board state

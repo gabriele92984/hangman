@@ -1,4 +1,4 @@
-# # Procedural Version
+## Procedural Version
 # puts 'Welcome to Hangman game!'
 
 # def load_dictionary
@@ -53,11 +53,12 @@
 #   puts "Sorry, you lose... The secret word was: #{secret_word}"
 # end
 
-# Object-Oriented Version
+## Object-Oriented Version
 class Hangman
   def initialize
     @lives = 6
     @selected_words = []
+    @incorrect_letters = []
     @secret_word = words_list.sample
     @board = setup_board
   end
@@ -82,18 +83,54 @@ class Hangman
     @board.join(' ')
   end
 
+  def make_guess
+    print "Please, guess a letter: "
+    gets.chomp 
+  end
+
+  def update_board(guess)
+    if @secret_word.include?(guess)
+    # If any of the letters in secret_word match then update board
+    # at the location of the matching letters to reveal the guessed word.
+      @secret_word.chars.each_with_index do |char, index|
+        if char.downcase == guess.downcase
+          @board[index] = char
+        end
+      end
+    else
+      @lives -= 1
+      @incorrect_letters << guess
+      # puts "The word did not include: #{guess}"
+      puts "Incorrect letters chosen: #{@incorrect_letters}"
+    end
+  end
+
+  def won?
+    @board.join('') == @secret_word  
+  end
+
+
   def play
     puts 'Welcome to Hangman!'
-    puts "The secret word chosen is: #{@secret_word}" # For debugging
+    # puts "The secret word is: #{@secret_word}" # For debugging
 
     # Ask for user action: (p)lay a new game or (l)oad a saved game
+    while @lives > 0 && !won?
+      # print number of lives
+      puts "\n\nYou have #{@lives} lives left."
+      # print the board state
+      puts board_state
+      # receive a guess
+      guess = make_guess
+      # update the board
+      update_board(guess)
+    end
     
-    # While the player has lives and not won
-    #   print the board state
-        puts board_state
-    #   receive a guess
-    #   update the board
-  
+    if won?
+      puts "Congrats, you won!"
+    else
+      puts "Sorry, you lose... The secret word was: #{@secret_word}"
+    end
   end
 end
 

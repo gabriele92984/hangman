@@ -1,0 +1,13 @@
+---
+:lives: 4
+:secret_word: belize
+:incorrect_letters:
+- g
+- a
+:board:
+- _
+- e
+- _
+- _
+- _
+- e

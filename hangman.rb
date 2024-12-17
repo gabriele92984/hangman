@@ -177,25 +177,30 @@ class Hangman
       # print the board state
       puts board_state
       # user input: (p)lay or (s)ave the game
-      print "\nYou wanna (p)lay or (s)ave the game? "
+      print "\nYou wanna (p)lay, (s)ave the game or e(x)it? "
       user_input = gets.chomp
 
-      if user_input == 'p' 
+      case user_input
+      when 'p'
         guess = make_guess
-      else
-      # serializing saved game
+        update_board(guess)
+      when 's'
+        # serializing and save game
         save_game
-      # end_game method
+      when 'x'
+        puts 'Goodbyeee!'
+        break
+      else
+        puts 'Invalid option, please try again.'     
       end
-
-      # update the board
-      update_board(guess)
     end
     
     if won?
       puts "\nCongrats, you won!"
-    else
+    elsif lost?
       puts "\nSorry, you lost... The secret word was: #{secret_word}"
+    else
+      nil
     end
   end
 end

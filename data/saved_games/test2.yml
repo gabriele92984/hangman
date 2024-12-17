@@ -1,0 +1,12 @@
+---
+:lives: 6
+:secret_word: surname
+:incorrect_letters: []
+:board:
+- _
+- _
+- r
+- _
+- a
+- _
+- _

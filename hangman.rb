@@ -54,6 +54,7 @@
 # end
 
 ## Object-Oriented Version
+
 require 'yaml'
 
 class Hangman
@@ -117,10 +118,10 @@ class Hangman
     lives == 0
   end
 
-  def user_choice
-    print "\nYou wanna (p)lay or (s)ave the game? "
-    gets.chomp
-  end
+  # def user_choice
+  #   print "\nYou wanna (p)lay or (s)ave the game? "
+  #   gets.chomp
+  # end
 
   def save_game
     game_data = {
@@ -170,19 +171,23 @@ class Hangman
   def play
     puts 'Welcome to Hangman!'
     # puts "The secret word is: #{@secret_word}" # For debugging
-    while !lost? && !won?
+    until won? || lost?
       # print number of lives
       puts "\n\nYou have #{lives} lives left."
       # print the board state
       puts board_state
-      # ask for user action: (p)lay or (s)ave the game
-      action = user_choice
-      if action == 'p' 
+      # user input: (p)lay or (s)ave the game
+      print "\nYou wanna (p)lay or (s)ave the game? "
+      user_input = gets.chomp
+
+      if user_input == 'p' 
         guess = make_guess
       else
-      # serializing method  
+      # serializing saved game
         save_game
+      # end_game method
       end
+
       # update the board
       update_board(guess)
     end

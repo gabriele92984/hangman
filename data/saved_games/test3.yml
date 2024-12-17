@@ -1,0 +1,14 @@
+---
+:lives: 4
+:secret_word: service
+:incorrect_letters:
+- a
+- g
+:board:
+- _
+- e
+- r
+- _
+- i
+- _
+- e

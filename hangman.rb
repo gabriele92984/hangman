@@ -88,6 +88,8 @@ class Hangman
   # open directory 'saved_games' and list the games saved
     begin
       Dir.foreach('data/saved_games/') do |file|
+        # Skip hidden files
+        next if file.start_with?('.')
           puts file
       end
     rescue SystemCallError => e
@@ -114,7 +116,7 @@ class Hangman
   end
 
   def play_game
-    puts 'Welcome to Hangman!'
+    puts "\n\nWelcome to Hangman!"
     # puts "The secret word is: #{@secret_word}" # For debugging
     
     until won? || lost?
@@ -148,27 +150,30 @@ class Hangman
     elsif lost?
       puts "\nSorry, you lost... The secret word was: #{secret_word}"
     else
-      nil
+      exit
     end
   end
 end
 
 game = Hangman.new
-game.play_game
 
-# loop do
-#   puts "1. New Game"
-#   puts "2. Load Game"
-#   choice = gets.chomp.to_i
+loop do
+  puts '1. New Game'
+  puts '2. Load Game'
+  puts '3. Exit Game'
+  choice = gets.chomp.to_i
 
-#   case choice
-#   when 1
-#     game.play_game
-#   when 2
-#     game.load_game
-#   else
-#     puts "Invalid choice."
-#   end
+  case choice
+  when 1
+    game.play_game
+  when 2
+    game.load_game
+  when 3
+    break
+  else
+    puts 'Invalid choice, please try again.'
+  end
+end
 
 #   # Main game loop starts here
 #   while game.playing?

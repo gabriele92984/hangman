@@ -1,15 +1,13 @@
 ---
-:lives: 1
-:secret_word: davis
+:lives: 4
+:secret_word: survey
 :incorrect_letters:
-- r
-- e
-- t
-- o
-- b
+- a
+- q
 :board:
 - _
-- a
 - _
+- r
 - _
+- e
 - _

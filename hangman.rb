@@ -13,22 +13,22 @@ class Hangman
   def words_list
     @selected_words = []
     begin
-      File.readlines('data/google-10000-english-no-swears.txt').each do |word|
+      File.readlines("data/google-10000-english-no-swears.txt").each do |word|
         selected_words << word.strip if word.strip.size.between?(5, 12)
       end
     rescue Errno::ENOENT
-      puts 'Error: Dictionary file not found.'
+      puts "Error: Dictionary file not found."
       exit 1
     end
-    selected_words  # Return the selected words
+    selected_words  # Return the selected words for the given condition
   end
 
   def setup_board
-    ['_'] * secret_word.size
+    ["_"] * secret_word.size
   end
 
   def board_state
-    board.join(' ')
+    board.join(" ")
   end
 
   def make_guess
@@ -38,7 +38,7 @@ class Hangman
 
   def update_board(guess)
     if secret_word.include?(guess)
-    # If any of the letters in secret_word match then update board at the location of the matching letters to reveal the guessed word.
+    # if any of the letters in secret_word match then update board at the location of the matching letters to reveal the guessed word
       secret_word.chars.each_with_index do |char, index|
         if char.downcase == guess.downcase
            board[index] = char
@@ -53,17 +53,12 @@ class Hangman
   end
 
   def won?
-    board.join('') == secret_word  
+    board.join("") == secret_word  
   end
 
   def lost?
     lives == 0
   end
-
-  # def user_choice
-  #   print "\nYou wanna (p)lay or (s)ave the game? "
-  #   gets.chomp
-  # end
 
   def save_game
     game_data = {
@@ -75,29 +70,30 @@ class Hangman
 
     print "Save game as: "
     file_name = "#{gets.chomp}.yml"
-    
+    # error handling
     begin
       File.write("data/saved_games/#{file_name}", YAML.dump(game_data))
-      puts 'Game saved successfully!'
+      puts "Game saved successfully!"
     rescue => e
       puts "Error saving game: #{e.message}"
     end
   end
 
   def load_game
-  # open directory 'saved_games' and list the games saved
+  # open directory "saved_games" and list the games saved
     begin
-      Dir.foreach('data/saved_games/') do |file|
-        # Skip hidden files
-        next if file.start_with?('.')
+      Dir.foreach("data/saved_games/") do |file|
+        # skip hidden files
+        next if file.start_with?(".")
           puts file
       end
     rescue SystemCallError => e
       puts "Error accessing directory: #{e.message}"
     end
-  # ask user for filename game
+    # ask user for filename game
     print "Please, enter a saved game name to load: "
     filename = "data/saved_games/#{gets.chomp}.yml"
+    # error handling
     begin
       if File.exist?(filename)
         game_data = YAML.load_file(filename)
@@ -131,17 +127,17 @@ class Hangman
       user_input = gets.chomp
 
       case user_input
-      when 'p'
+      when "p"
         guess = make_guess
         update_board(guess)
-      when 's'
+      when "s"
         # serializing and save game
         save_game
-      when 'x'
-        puts 'Goodbye!'
+      when "x"
+        puts "Goodbye!"
         break
       else
-        puts 'Invalid option, please try again.'     
+        puts "Invalid option, please try again."     
       end
     end
     
@@ -158,9 +154,10 @@ end
 game = Hangman.new
 
 loop do
-  puts '1. New Game'
-  puts '2. Load Game'
-  puts '3. Exit Game'
+  puts "\n\nPlease, select an option:"
+  puts "1. New Game"
+  puts "2. Load Game"
+  puts "3. Exit Game"
   choice = gets.chomp.to_i
 
   case choice
@@ -171,12 +168,7 @@ loop do
   when 3
     break
   else
-    puts 'Invalid choice, please try again.'
+    puts "Invalid choice, please try again."
   end
 end
 
-#   # Main game loop starts here
-#   while game.playing?
-#     # ... game logic ...
-#   end
-# end

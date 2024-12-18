@@ -1,0 +1,17 @@
+---
+:lives: 3
+:secret_word: abstracts
+:incorrect_letters:
+- e
+- p
+- i
+:board:
+- a
+- b
+- _
+- t
+- r
+- a
+- c
+- t
+- _

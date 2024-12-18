@@ -73,16 +73,16 @@ class Hangman
       board: @board
     }
 
+    serialized_data = YAML.dump(game_data)
+
     print "Save game as: "
-    filename = "#{gets.chomp}.yml"
+    file_name = "#{gets.chomp}.yml"
 
-    Dir.chdir('data')
-    Dir.mkdir('saved_games') unless Dir.exist?('saved_games')
-    Dir.chdir('saved_games')
-
+    directory_path = 'data/saved_games'
+    file_path = File.join(directory_path, file_name)
     # exception handling
     begin
-      File.write(filename, YAML.dump(game_data))
+      File.write(file_path, serialized_data)
       puts 'Game saved successfully!'
     rescue => e
       puts "Error saving game: #{e.message}"
@@ -91,7 +91,11 @@ class Hangman
 
   def load_game
   # open directory 'saved_games' and list the games saved
-  # ask user for a filename game
+    Dir.chdir('data/saved_games')
+    Dir.foreach('.') do |file|
+      puts file
+    end
+  # ask user for filename game
     print "Please, enter a saved game name: "
     filename = "#{gets.chomp}.yml"
   
@@ -105,16 +109,20 @@ class Hangman
     else
       puts "No saved game found. Starting a new game..."
     end
+    play_game
   end
 
-  def play
+  def play_game
     puts 'Welcome to Hangman!'
     # puts "The secret word is: #{@secret_word}" # For debugging
+    
     until won? || lost?
       # print number of lives
       puts "\n\nYou have #{lives} lives left."
+      
       # print the board state
       puts board_state
+     
       # user input: (p)lay or (s)ave the game
       print "\nYou wanna (p)lay, (s)ave the game or e(x)it? "
       user_input = gets.chomp
@@ -145,4 +153,24 @@ class Hangman
 end
 
 game = Hangman.new
-game.play
+game.play_game
+
+# loop do
+#   puts "1. New Game"
+#   puts "2. Load Game"
+#   choice = gets.chomp.to_i
+
+#   case choice
+#   when 1
+#     game.play_game
+#   when 2
+#     game.load_game
+#   else
+#     puts "Invalid choice."
+#   end
+
+#   # Main game loop starts here
+#   while game.playing?
+#     # ... game logic ...
+#   end
+# end

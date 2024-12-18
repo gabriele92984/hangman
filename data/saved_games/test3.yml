@@ -1,0 +1,13 @@
+---
+:lives: 5
+:secret_word: relates
+:incorrect_letters:
+- o
+:board:
+- r
+- _
+- _
+- a
+- _
+- _
+- s

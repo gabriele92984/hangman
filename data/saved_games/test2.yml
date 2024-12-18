@@ -1,0 +1,12 @@
+---
+:lives: 4
+:secret_word: frank
+:incorrect_letters:
+- e
+- t
+:board:
+- _
+- r
+- a
+- "n"
+- _

@@ -171,4 +171,3 @@ loop do
     puts "Invalid choice, please try again."
   end
 end
-

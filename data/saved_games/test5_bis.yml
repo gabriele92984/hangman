@@ -1,0 +1,17 @@
+---
+:lives: 2
+:secret_word: contacts
+:incorrect_letters:
+- e
+- r
+- g
+- p
+:board:
+- c
+- _
+- _
+- t
+- a
+- c
+- t
+- _

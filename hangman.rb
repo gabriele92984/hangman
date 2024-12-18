@@ -73,16 +73,11 @@ class Hangman
       board: @board
     }
 
-    serialized_data = YAML.dump(game_data)
-
     print "Save game as: "
     file_name = "#{gets.chomp}.yml"
-
-    directory_path = 'data/saved_games'
-    file_path = File.join(directory_path, file_name)
-    # exception handling
+    
     begin
-      File.write(file_path, serialized_data)
+      File.write("data/saved_games/#{file_name}", YAML.dump(game_data))
       puts 'Game saved successfully!'
     rescue => e
       puts "Error saving game: #{e.message}"
@@ -91,25 +86,31 @@ class Hangman
 
   def load_game
   # open directory 'saved_games' and list the games saved
-    Dir.chdir('data/saved_games')
-    Dir.foreach('.') do |file|
-      puts file
+    begin
+      Dir.foreach('data/saved_games/') do |file|
+          puts file
+      end
+    rescue SystemCallError => e
+      puts "Error accessing directory: #{e.message}"
     end
   # ask user for filename game
-    print "Please, enter a saved game name: "
-    filename = "#{gets.chomp}.yml"
-  
-    if File.exist?(filename)
-      game_data = YAML.load_file(filename)
-      @lives = game_data[:lives]
-      @secret_word = game_data[:secret_word]
-      @incorrect_letters = game_data[:incorrect_letters]
-      @board = game_data[:board]
-      puts "Game loaded successfully!"
-    else
-      puts "No saved game found. Starting a new game..."
+    print "Please, enter a saved game name to load: "
+    filename = "data/saved_games/#{gets.chomp}.yml"
+    begin
+      if File.exist?(filename)
+        game_data = YAML.load_file(filename)
+        @lives = game_data[:lives]
+        @secret_word = game_data[:secret_word]
+        @incorrect_letters = game_data[:incorrect_letters]
+        @board = game_data[:board]
+        puts "Game loaded successfully!"
+      else
+        puts "No saved game found. Starting a new game..."
+      end
+    rescue StandardError => e
+      puts "Error loading game: #{e.message}"
     end
-    play_game
+      play_game
   end
 
   def play_game

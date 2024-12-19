@@ -113,7 +113,7 @@ class Hangman
 
   def play_game
     puts "\n\nWelcome to Hangman!"
-    # puts "The secret word is: #{@secret_word}" # For debugging
+    puts "The secret word is: #{@secret_word}" # For debugging
     
     until won? || lost?
       # print number of lives
@@ -142,7 +142,7 @@ class Hangman
     end
     
     if won?
-      puts "\nCongrats, you won!"
+      puts "\nCongrats, you won! You got \"#{secret_word}\"!"
     elsif lost?
       puts "\nSorry, you lost... The secret word was: #{secret_word}"
     else

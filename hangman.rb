@@ -11,7 +11,7 @@ class Hangman
   end
 
   def words_list
-    @selected_words = []
+    selected_words = []
     begin
       File.readlines("data/google-10000-english-no-swears.txt").each do |word|
         selected_words << word.strip if word.strip.size.between?(5, 12)

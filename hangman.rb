@@ -1,7 +1,7 @@
 require 'yaml'
 
 class Hangman
-  attr_accessor :lives, :selected_words, :incorrect_letters, :secret_word, :board 
+  attr_accessor :lives, :incorrect_letters, :secret_word, :board 
 
   def initialize
     @lives = 6

@@ -1,7 +1,7 @@
-require 'yaml'
+require "yaml"
 
-class Hangman
-  attr_accessor :lives, :incorrect_letters, :secret_word, :board 
+class Hangman # rubocop:disable Metrics/ClassLength,Style/Documentation
+  attr_accessor :lives, :incorrect_letters, :secret_word, :board
 
   def initialize
     @lives = 6
@@ -20,7 +20,7 @@ class Hangman
       puts "Error: Dictionary file not found."
       exit 1
     end
-    selected_words  # Return the selected words for the given condition
+    selected_words # Return the selected words for the given condition
   end
 
   def setup_board
@@ -38,11 +38,10 @@ class Hangman
 
   def update_board(guess)
     if secret_word.include?(guess)
-    # if any of the letters in secret_word match then update board at the location of the matching letters to reveal the guessed word
+      # if any of the letters in secret_word match then update board at
+      # the location of the matching letters to reveal the guessed word
       secret_word.chars.each_with_index do |char, index|
-        if char.downcase == guess.downcase
-           board[index] = char
-        end
+        board[index] = char if char.downcase == guess.downcase
       end
     else
       self.lives -= 1
@@ -53,14 +52,14 @@ class Hangman
   end
 
   def won?
-    board.join("") == secret_word  
+    board.join == secret_word
   end
 
   def lost?
-    lives == 0
+    lives.zero?
   end
 
-  def save_game
+  def save_game # rubocop:disable Metrics/MethodLength
     game_data = {
       lives: @lives,
       secret_word: @secret_word,
@@ -74,18 +73,19 @@ class Hangman
     begin
       File.write("data/saved_games/#{file_name}", YAML.dump(game_data))
       puts "Game saved successfully!"
-    rescue => e
+    rescue StandardError => e
       puts "Error saving game: #{e.message}"
     end
   end
 
-  def load_game
-  # open directory "saved_games" and list the games saved
+  def load_game # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+    # open directory "saved_games" and list the games saved
     begin
       Dir.foreach("data/saved_games/") do |file|
         # skip hidden files
         next if file.start_with?(".")
-          puts file
+
+        puts file
       end
     rescue SystemCallError => e
       puts "Error accessing directory: #{e.message}"
@@ -108,20 +108,20 @@ class Hangman
     rescue StandardError => e
       puts "Error loading game: #{e.message}"
     end
-      play_game
+    play_game
   end
 
-  def play_game
+  def play_game # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength
     puts "\n\nWelcome to Hangman!"
     puts "The secret word is: #{@secret_word}" # For debugging
-    
+
     until won? || lost?
       # print number of lives
       puts "\n\nYou have #{lives} lives left."
-      
+
       # print the board state
       puts board_state
-     
+
       # user input: (p)lay or (s)ave the game
       print "\nYou wanna (p)lay, (s)ave the game or e(x)it? "
       user_input = gets.chomp
@@ -137,10 +137,10 @@ class Hangman
         puts "Goodbye!"
         break
       else
-        puts "Invalid option, please try again."     
+        puts "Invalid option, please try again."
       end
     end
-    
+
     if won?
       puts "\nCongrats, you won! You got \"#{secret_word}\"!"
     elsif lost?
